@@ -58,7 +58,7 @@ pipeline{
                     
                 }
             }
-            stage('Quality Gate Status'){
+       <!--     stage('Quality Gate Status'){
                 
                 steps{
                     
@@ -67,7 +67,7 @@ pipeline{
                         waitForQualityGate abortPipeline: false, credentialsId: 'sonartoken'
                     }
                 }
-            }
+            }  -->
         }
         
 }

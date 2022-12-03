@@ -41,7 +41,6 @@ pipeline{
                 script{
                     
                     sh 'mvn clean install'
-                    sh "mv target/*.war target/Uber.war"
                 }
             }
         }

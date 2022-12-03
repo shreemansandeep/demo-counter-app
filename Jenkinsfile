@@ -89,6 +89,20 @@ pipeline{
               }
             }
         
+        stage("deploy-dev"){
+            steps{
+                sshagent(['tomcat-pipedp']) {
+                sh """
+                    scp -o StrictHostKeyChecking=no target/mybookonline.war ubuntu@172.31.33.156:/opt/tomcat/webapps/
+                    ssh ubuntu@172.31.33.156 /opt/tomcat/bin/shutdown.sh
+                    ssh ubuntu@172.31.33.156 /opt/tomcat/bin/startup.sh
+                
+                """
+            }
+            
+            }
+        }
+        
         }
         
 }

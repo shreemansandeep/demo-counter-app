@@ -32,6 +32,17 @@
 
 	<build>
 		<plugins>
+			
+			<plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.1</version>
+	<configuration>
+	<!-- <warSourceDirectory>ProjectWeb</warSourceDirectory> --> <!-- <warSourceDirectory></warSourceDirectory> -->
+    	<failOnMissingWebXml>false</failOnMissingWebXml>
+	</configuration>
+	</plugin>
+			
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
@@ -48,15 +59,7 @@
             </executions>
 			</plugin>
 			
-			<plugin>
-	<groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>3.3.1</version>
-	<configuration>
-	<!-- <warSourceDirectory>ProjectWeb</warSourceDirectory> --> <!-- <warSourceDirectory></warSourceDirectory> -->
-    	<failOnMissingWebXml>false</failOnMissingWebXml>
-	</configuration>
-	</plugin>
+			
 			
 		</plugins>
 	</build>

@@ -85,13 +85,13 @@ pipeline{
                   nexusVersion: 'nexus3', 
                   protocol: 'http', 
                   repository: 'demoapp-release', 
-                  version: '8.0.0'  
+                  version: '7.0.0'  
               }
             }
             
             stage('Docker Build image and Tag'){
             steps{
-                  sh 'docker build -t dockersandheep/democounterapp:2.0 .'
+                  sh 'docker build -t dockersandheep/democounterapp:1.0 .'
             }
             }
             
@@ -100,16 +100,16 @@ pipeline{
                   withCredentials([string(credentialsId: 'DockerHpwd', variable: 'DockerHubPwd')]) {
                   sh 'docker login -u dockersandheep -p ${DockerHubPwd}'
             }
-                  sh 'docker push dockersandheep/democounterapp:2.0'
+                  sh 'docker push dockersandheep/democounterapp:1.0'
             }
             }
         
         stage('Run Docker container on remote dev server'){
-            steps{
-                def dockerRun = 'docker run -p 8082:8080 -d --name demoappcontone dockersandheep/democounterapp:2.0'
+            
+                def dockerRun = 'docker run -p 8080:8080 -d --name demoappcontone dockersandheep/democounterapp:1.0'
                 sshagent(['docker-tom']) {
                 sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.92 ${dockerRun}"
-}
+
             }
         }
         

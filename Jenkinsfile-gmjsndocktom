@@ -85,7 +85,7 @@ pipeline{
                   nexusVersion: 'nexus3', 
                   protocol: 'http', 
                   repository: 'demoapp-release', 
-                  version: '6.0.0'  
+                  version: '7.0.0'  
               }
             }
             
@@ -104,7 +104,14 @@ pipeline{
             }
             }
         
-        
+        stage('Run Docker container on remote dev server'){
+            steps{
+                def dockerRun = 'docker run -p 8080:8080 -d --name demoappc1 dockersandheep/democounterapp:1.0'
+                sshagent(['docker-tom']) {
+                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.92 ${dockerRun}"
+}
+            }
+        }
         
         }
         

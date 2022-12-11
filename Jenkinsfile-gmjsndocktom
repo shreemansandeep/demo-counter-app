@@ -1,0 +1,118 @@
+pipeline{
+    
+    agent any 
+    
+    stages {
+        
+        stage('Git Checkout'){
+            
+            steps{
+                
+                script{
+                    
+                    git branch: 'main', credentialsId: 'GitID', url: 'https://github.com/shreemansandeep/demo-counter-app.git'
+                }
+            }
+        }
+        stage('UNIT testing'){
+            
+            steps{
+                
+                script{
+                    
+                    sh 'mvn test'
+                }
+            }
+        }
+        stage('Integration testing'){
+            
+            steps{
+                
+                script{
+                    
+                    sh 'mvn verify -DskipUnitTests'
+                }
+            }
+        }
+        stage('Maven build'){
+            
+            steps{
+                
+                script{
+                    
+                    sh 'mvn clean install'
+                }
+            }
+        }
+        stage('Static code analysis'){
+            
+            steps{
+                
+                script{
+                    
+                    withSonarQubeEnv(credentialsId: 'sonartoken') {
+                        
+                        sh 'mvn clean package sonar:sonar'
+                    }
+                   }
+                    
+                }
+            }
+            stage('Quality Gate Status'){
+                
+                steps{
+                    
+                    script{
+                        
+                        waitForQualityGate abortPipeline: false, credentialsId: 'sonartoken'
+                    }
+                }
+            }  
+        
+        stage('Upload War To Nexus'){
+            steps{
+                  nexusArtifactUploader artifacts: [
+                       [
+                            artifactId: 'springboot', 
+                            classifier: '', 
+                            file: "target/Uber.war", 
+                            type: 'war'
+                       ]
+                  ], 
+                  credentialsId: 'nexus-auth', 
+                  groupId: 'com.example', 
+                  nexusUrl: '13.233.197.251:8081', 
+                  nexusVersion: 'nexus3', 
+                  protocol: 'http', 
+                  repository: 'demoapp-release', 
+                  version: '3.0.0'  
+              }
+            }
+            
+            stage('Docker Build image and Tag'){
+            steps{
+                  sh 'docker build -t dockersandheep/democounterapp:1.0 .'
+            }
+            }
+            
+            stage('Push image to Docker Hub'){
+            steps{
+                  withCredentials([string(credentialsId: 'DockerHpwd', variable: 'DockerHubPwd')]) {
+                  sh 'docker login -u dockersandheep -p ${DockerHubPwd}'
+            }
+                  sh 'docker push dockersandheep/democounterapp:1.0'
+            }
+        
+        stage("Run Docker container on remote dev server"){
+            steps{
+                  def dockerRun = 'docker run -p 8080:8080 -d --name democounterappc1 dockersandheep/democounterapp:1.0'
+                sshagent(['docker-tom']) {
+                    sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.92 ${dockerRun}"
+            }
+            
+            }
+        } 
+        
+        }
+        
+}

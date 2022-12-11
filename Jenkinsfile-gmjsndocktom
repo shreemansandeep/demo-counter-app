@@ -107,10 +107,8 @@ pipeline{
         stage('Run Docker container on remote dev server'){
                 
             steps{
-                def dockerPull = 'docker pull dockersandheep/democounterapp:1.0'
-                def dockerRun = 'docker run -p 8080:8080 dockersandheep/democounterapp:1.0'
+                def dockerRun = "docker run -p 8080:8080 dockersandheep/democounterapp:1.0"
                 sshagent(['docker-tom']) {
-                sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.92 ${dockerPull}"
                 sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.92 ${dockerRun}"
 
             }

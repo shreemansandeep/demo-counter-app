@@ -81,7 +81,7 @@ pipeline{
                   ], 
                   credentialsId: 'nexus-auth', 
                   groupId: 'com.example', 
-                  nexusUrl: '13.233.197.251:8081', 
+                  nexusUrl: '65.0.3.166:8081', 
                   nexusVersion: 'nexus3', 
                   protocol: 'http', 
                   repository: 'demoapp-release', 
@@ -105,7 +105,7 @@ pipeline{
         
         stage("Run Docker container on remote dev server"){
             steps{
-                  def dockerRun = 'docker run -p 8080:8080 -d --name democounterappc1 dockersandheep/democounterapp:1.0'
+                  def dockerRun = 'docker run -p 8080:8080 -d --name counterappcontone dockersandheep/democounterapp:1.0'
                 sshagent(['docker-tom']) {
                     sh "ssh -o StrictHostKeyChecking=no ubuntu@172.31.38.92 ${dockerRun}"
             }

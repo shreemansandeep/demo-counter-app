@@ -89,7 +89,7 @@ pipeline{
               }
             }
         
-        stage("deploy-dev"){
+       <!-- stage("deploy-dev"){
             steps{
                 sshagent(['tomcat-pipedp']) {
                 sh """
@@ -101,7 +101,7 @@ pipeline{
             }
             
             }
-        }
+        } -->
         
         }
         

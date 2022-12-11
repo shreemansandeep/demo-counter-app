@@ -102,6 +102,7 @@ pipeline{
             }
                   sh 'docker push dockersandheep/democounterapp:1.0'
             }
+            }
         
         stage("Run Docker container on remote dev server"){
             steps{

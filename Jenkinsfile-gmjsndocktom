@@ -71,6 +71,7 @@ pipeline{
         
         stage('Upload War To Nexus'){
             steps{
+            script{
             
                 def pom = readMavenPom file: 'pom.xml'
                 
@@ -92,6 +93,7 @@ pipeline{
                   repository: nexusRepo, 
                   version: "${pom.version}" 
               }
+            }
             }
             
             stage('Docker Build image and Tag'){

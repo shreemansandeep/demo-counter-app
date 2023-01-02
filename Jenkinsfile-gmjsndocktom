@@ -94,7 +94,7 @@ pipeline{
               }
             }
             
-     //       stage('Docker Build image and Tag'){
+     //**       stage('Docker Build image and Tag'){
             steps{
                   sh 'docker build -t dockersandheep/democounterapp:1.0 .'
             }
@@ -107,7 +107,7 @@ pipeline{
             }
                   sh 'docker push dockersandheep/democounterapp:1.0'
             }
-            }  //
+            }  **//
         
         
         }

@@ -98,9 +98,9 @@ pipeline{
             
             stage('Docker Build image and Tag'){
             steps{
-                  sh 'docker build -t $JOB_NAME:V1.$BUILD_ID .'
-                  sh 'docker tag $JOB_NAME:V1.$BUILD_ID dockersandheep/$JOB_NAME:V1.$BUILD_ID'
-                  sh 'docker tag $JOB_NAME:V1.$BUILD_ID dockersandheep/$JOB_NAME:latest'
+                  sh 'docker build tag $JOB_NAME:v1.$BUILD_ID .'
+                  sh 'docker tag $JOB_NAME:v1.$BUILD_ID dockersandheep/$JOB_NAME:V1.$BUILD_ID'
+                  sh 'docker tag $JOB_NAME:v1.$BUILD_ID dockersandheep/$JOB_NAME:latest'
             }
             }
             

@@ -74,7 +74,7 @@ pipeline{
             
                 def pom = readMavenPom file: 'pom.xml'
                 
-                def nexusRepo = pom.version.endsWith("SNAPSHOT") ? "onlinebookown-snapshot" : "onlinebookown-release"
+                def nexusRepo = pom.version.endsWith("SNAPSHOT") ? "demoapp-snapshot" : "demoapp-release"
                 
                   nexusArtifactUploader artifacts: [
                        [
